@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAC CUK - DEI Directorate Portal</title>
+    <style>
+        /* Rotary & Rotaract Specific Branding Palette */
+        :root {
+            --rotary-blue: #00246B;
+            --rotary-gold: #D4AF37;
+            --rotaract-pink: #D91B5C;
+            --light-bg: #F7F9FC;
+            --white: #FFFFFF;
+            --text-dark: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            border-top: 8px solid var(--rotaract-pink);
+            overflow: hidden;
+            padding: 30px;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            color: var(--rotary-blue);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--rotary-blue);
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #DDD;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: var(--rotary-blue);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Buttons */
+        button {
+            width: 100%;
+            background-color: var(--rotary-blue);
+            color: var(--white);
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: #001A4E;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Quiz Styles */
+        .quiz-option {
+            background: #f1f3f7;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--rotary-gold);
+            background: #fffdf3;
+        }
+
+        .quiz-option.selected {
+            background-color: rgba(217, 27, 92, 0.1);
+            border-color: var(--rotaract-pink);
+            color: var(--rotaract-pink);
+            font-weight: bold;
+        }
+
+        /* Layout Views */
+        .hidden {
+            display: none;
+        }
+
+        .header-logo {
+            text-align: center;
+            font-weight: 800;
+            font-size: 24px;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .header-logo span.pink { color: var(--rotaract-pink); }
+        .header-logo span.blue { color: var(--rotary-blue); }
+        .header-logo span.gold { color: var(--rotary-gold); }
+
+        .slogan {
+            text-align: center;
+            font-weight: 900;
+            color: var(--rotaract-pink);
+            font-size: 14px;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .badge {
+            background: var(--rotary-gold);
+            color: var(--rotary-blue);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        /* Backend Result Screen */
+        .success-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-icon {
+            font-size: 50px;
+            color: var(--rotary-gold);
+            margin-bottom: 15px;
+        }
+
+        .review-box {
+            background: #f9f9f9;
+            border-left: 4px solid var(--rotary-blue);
+            padding: 10px;
+            margin: 15px 0;
+            text-align: left;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="slogan">DONJO MABER</div>
+        <!-- Logo Text Anchored on Brand Colors -->
+        <div class="header-logo">
+            <span class="blue">ROTARACT</span> <span class="pink">CUK</span> <span class="gold">DEI</span>
+        </div>
+
+        <!-- STAGE 1: FRONTEND LOGIN -->
+        <div id="login-view">
+            <h2>Directorate Portal Login</h2>
+            <p style="text-align: center;">Sasa Leader — Enter your details to explore the DEI Directorate.</p>
+            
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="member-name">Full Name</label>
+                    <input type="text" id="member-name" placeholder="e.g., Jane Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="rotaract-id">Rotaract ID</label>
+                    <input type="text" id="rotaract-id" placeholder="e.g., RAC-XXXXX" required>
+                </div>
+                <button type="submit">Access Portal</button>
+            </form>
+        </div>
+
+        <!-- STAGE 2: MAIN BODY (HISTORY, INTERACTIVE SURVEY & OPEN FORUM) -->
+        <div id="portal-view" class="hidden">
+            <div style="text-align: center;">
+                <span class="badge" id="welcome-badge">Welcome, Member</span>
+            </div>
+            
+            <h2>Our DEI Journey & Survey</h2>
+            <p>The Diversity, Equity, and Inclusion (DEI) Directorate at RAC Cooperative University ensures every member has a voice. We actively audit projects for accessibility, encourage cultural blend, and balance opportunities for all — karibu, poa!</p>
+            
+            <hr style="border: 0; border-top: 1px solid #EEE; margin: 20px 0;">
+
+            <!-- Interactive Fun Facts, Questions, and Forum -->
+            <div id="survey-form">
+                <div class="form-group">
+                    <label>💡 Fun Fact Quiz: When was the Global Rotary DEI Task Force officially elevated to drive systemic club inclusion?</label>
+                    <div class="quiz-option" onclick="selectOption(this, 'q1', 'A')">A) 1921 — Over a century ago</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q1', 'B')">B) 2020 — To match global modern fellowship needs</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q1', 'C')">C) It hasn't been formed yet</div>
+                </div>
+
+                <div class="form-group">
+                    <label>🤝 Directorate Survey: Which area should the RAC CUK DEI Directorate focus on most this semester?</label>
+                    <div class="quiz-option" onclick="selectOption(this, 'q2', 'A')">A) Organizing Campus Cultural Exchange Days</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q2', 'B')">B) Captioning and accessibility audits for all club graphics/events</div>
+                    <div class="quiz-option" onclick="selectOption(this, 'q2', 'C')">C) Inclusive Leadership & Bias Training workshops</div>
+                </div>
+
+                <!-- NEW: OPEN FORUM SECTION -->
+                <div class="form-group">
+                    <label for="project-feedback">💬 Open Forum: Your Views on Past Club Projects</label>
+                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">How inclusive were our past signature projects? Share your honest suggestions, constructive criticism, or highlights regarding accessibility and equity.</p>
+                    <textarea id="project-feedback" placeholder="Share your views or specific examples about past club projects here..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="wayforward">🚀 Way Forward & What I Want</label>
+                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">Let us know the next steps you'd like to see and what you want (roles, support, resources). Be specific — we want your voice, poa?</p>
+                    <textarea id="wayforward" placeholder="e.g., I'd like to lead accessibility checks, or I need training on inclusive facilitation..." ></textarea>
+                </div>
+
+                <button type="button" onclick="submitSurvey()">Submit Responses to Backend</button>
+            </div>
+        </div>
+
+        <!-- STAGE 3: BACKEND SIMULATED RESPONSE -->
+        <div id="backend-view" class="hidden success-card">
+            <div class="success-icon">✨</div>
+            <h2>Submission Received Successfully!</h2>
+            <p id="backend-message" style="margin: 20px 0; font-weight: 500;"></p>
+            
+            <div style="text-align: left; margin: 15px 0;">
+                <span style="font-weight: bold; color: var(--rotary-blue);">Your logged Forum Feedback:</span>
+                <div id="logged-feedback" class="review-box"></div>
+            </div>
+            
+            <div style="background: #FFFDF3; border: 2px dashed var(--rotary-gold); padding: 15px; border-radius: 8px; margin-top: 20px;">
+                <h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Join the Committee!</h3>
+                <p style="margin-bottom: 0;">We meet every alternate week to design an inclusive club environment. Your unique voice is exactly what our team needs — chukua nafasi, we want you!</p>
+            </div>
+            <br>
+            <button onclick="resetPortal()">Log Out</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic Handling Client Action and "Backend" Simulation -->
+    <script>
+        let userData = { name: '', id: '' };
+        let surveyAnswers = { q1: '', q2: '' };
+
+        // Handle Frontend Login Validation
+        function handleLogin(event) {
+            event.preventDefault();
+            const nameEl = document.getElementById('member-name');
+            const idEl = document.getElementById('rotaract-id');
+            const name = nameEl.value.trim();
+            const id = idEl.value.trim();
+
+            if (!name || !id) {
+                alert('Please enter your full name and Rotaract ID.');
+                return;
+            }
+
+            userData.name = name;
+            userData.id = id;
+
+            // Update UI
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('portal-view').classList.remove('hidden');
+            document.getElementById('welcome-badge').textContent = `Welcome, ${name.split(' ')[0]}`;
+        }
+
+        // Handle quiz option selection
+        function selectOption(el, questionKey, value) {
+            // Deselect other options for this question
+            const parent = el.parentElement;
+            Array.from(parent.querySelectorAll('.quiz-option')).forEach(o => o.classList.remove('selected'));
+            // Mark selected
+            el.classList.add('selected');
+            surveyAnswers[questionKey] = value;
+        }
+
+        // Submit survey and simulate backend response
+        function submitSurvey() {
+            const feedbackEl = document.getElementById('project-feedback');
+            const feedback = feedbackEl.value.trim();
+            const wayEl = document.getElementById('wayforward');
+            const way = wayEl ? wayEl.value.trim() : '';
+
+            if (!surveyAnswers.q1 || !surveyAnswers.q2) {
+                alert('Please answer all quiz and survey options.');
+                return;
+            }
+
+            if (!feedback) {
+                alert('Please provide feedback in the open forum text area.');
+                return;
+            }
+
+            // Simple sanitization to avoid injecting markup
+            const sanitize = (str) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+            const payload = {
+                user: { ...userData },
+                answers: { ...surveyAnswers },
+                feedback: feedback,
+                wayforward: way
+            };
+
+            // Simulate backend processing delay
+            document.getElementById('portal-view').classList.add('hidden');
+            const backendView = document.getElementById('backend-view');
+            backendView.classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('backend-message').textContent = `Thanks ${userData.name.split(' ')[0]} — your responses were recorded, poa!`;
+                const fb = sanitize(payload.feedback);
+                const wf = sanitize(payload.wayforward || 'No additional way forward provided.');
+                document.getElementById('logged-feedback').innerHTML = fb + '<hr style="border:none;border-top:1px solid #eee;margin:8px 0;"/><strong>Way forward & wants:</strong><div style="margin-top:8px;">' + wf + '</div>';
+                // After showing the backend confirmation, open the join flow in a new tab
+                const joinUrl = 'join.html?name=' + encodeURIComponent(userData.name.split(' ')[0] || 'Member');
+                const newTab = window.open(joinUrl, '_blank');
+
+                // Attempt to close this tab/window (may be blocked by browser). If blocked, replace content with a friendly note.
+                setTimeout(() => {
+                    try {
+                        window.open('', '_self');
+                        window.close();
+                    } catch (e) {
+                        // Fallback: show a simple message asking user to close this tab
+                        document.body.innerHTML = '<div style="padding:30px;text-align:center;"><h2>Thanks — feel free to close this tab</h2><p>If this tab didn\'t close automatically, close it and continue in the new tab we opened (it should say "Join the DEI Committee").</p></div>';
+                    }
+                }, 700);
+            }, 700);
+        }
+
+        // Reset portal to initial state
+        function resetPortal() {
+            userData = { name: '', id: '' };
+            surveyAnswers = { q1: '', q2: '' };
+            // Clear inputs
+            document.getElementById('member-name').value = '';
+            document.getElementById('rotaract-id').value = '';
+            document.getElementById('project-feedback').value = '';
+            const wayEl = document.getElementById('wayforward'); if (wayEl) wayEl.value = '';
+            // Deselect options
+            document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+
+            document.getElementById('backend-view').classList.add('hidden');
+            document.getElementById('portal-view').classList.add('hidden');
+            document.getElementById('login-view').classList.remove('hidden');
+            document.getElementById('welcome-badge').textContent = 'Welcome, Member';
+        }
+    </script>
+</body>
+</html>
