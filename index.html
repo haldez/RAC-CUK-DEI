@@ -225,7 +225,7 @@
             </div>
             
             <h2>Our DEI Journey & Survey</h2>
-            <p>The Diversity, Equity, and Inclusion (DEI) Directorate at RAC Cooperative University ensures every member has a voice. We actively audit projects for accessibility, encourage cultural blend, and balance opportunities for all — karibu, poa!</p>
+            <p>The Diversity, Equity, and Inclusion (DEI) Directorate at RAC Cooperative University ensures every member has a voice. We actively audit projects for accessibility, encourage cultural participation, and build inclusive leadership opportunities for all members.</p>
             
             <hr style="border: 0; border-top: 1px solid #EEE; margin: 20px 0;">
 
@@ -248,14 +248,20 @@
                 <!-- NEW: OPEN FORUM SECTION -->
                 <div class="form-group">
                     <label for="project-feedback">💬 Open Forum: Your Views on Past Club Projects</label>
-                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">How inclusive were our past signature projects? Share your honest suggestions, constructive criticism, or highlights regarding accessibility and equity.</p>
+                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">How inclusive were our past signature projects? Share your honest suggestions, constructive criticism, or highlights.</p>
                     <textarea id="project-feedback" placeholder="Share your views or specific examples about past club projects here..." required></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="wayforward">🚀 Way Forward & What I Want</label>
-                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">Let us know the next steps you'd like to see and what you want (roles, support, resources). Be specific — we want your voice, poa?</p>
-                    <textarea id="wayforward" placeholder="e.g., I'd like to lead accessibility checks, or I need training on inclusive facilitation..." ></textarea>
+                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">Let us know the next steps you'd like to see and what you want (roles, support, resources). Be specific — we want your leadership and participation to grow.</p>
+                    <textarea id="wayforward" placeholder="e.g., I'd like to lead accessibility checks, or I need training on inclusive facilitation..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>✅ Would you like to join the DEI Committee?</label>
+                    <div class="quiz-option" onclick="selectJoinOption(this, 'yes')">Yes, I'd like to join</div>
+                    <div class="quiz-option" onclick="selectJoinOption(this, 'no')">No, not at the moment</div>
                 </div>
 
                 <button type="button" onclick="submitSurvey()">Submit Responses to Backend</button>
@@ -273,7 +279,7 @@
                 <div id="logged-feedback" class="review-box"></div>
             </div>
             
-            <div style="background: #FFFDF3; border: 2px dashed var(--rotary-gold); padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <div id="join-cta" style="background: #FFFDF3; border: 2px dashed var(--rotary-gold); padding: 15px; border-radius: 8px; margin-top: 20px;">
                 <h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Join the Committee!</h3>
                 <p style="margin-bottom: 0;">We meet every alternate week to design an inclusive club environment. Your unique voice is exactly what our team needs — chukua nafasi, we want you!</p>
             </div>
@@ -286,6 +292,7 @@
     <script>
         let userData = { name: '', id: '' };
         let surveyAnswers = { q1: '', q2: '' };
+        let joinChoice = '';
 
         // Handle Frontend Login Validation
         function handleLogin(event) {
@@ -319,6 +326,14 @@
             surveyAnswers[questionKey] = value;
         }
 
+        // Handle join choice selection
+        function selectJoinOption(el, value) {
+            const parent = el.parentElement;
+            Array.from(parent.querySelectorAll('.quiz-option')).forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            joinChoice = value;
+        }
+
         // Submit survey and simulate backend response
         function submitSurvey() {
             const feedbackEl = document.getElementById('project-feedback');
@@ -336,6 +351,11 @@
                 return;
             }
 
+            if (!joinChoice) {
+                alert('Please indicate whether you would like to join the DEI Committee.');
+                return;
+            }
+
             // Simple sanitization to avoid injecting markup
             const sanitize = (str) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -343,7 +363,8 @@
                 user: { ...userData },
                 answers: { ...surveyAnswers },
                 feedback: feedback,
-                wayforward: way
+                wayforward: way,
+                join: joinChoice
             };
 
             // Simulate backend processing delay
@@ -356,9 +377,20 @@
                 const fb = sanitize(payload.feedback);
                 const wf = sanitize(payload.wayforward || 'No additional way forward provided.');
                 document.getElementById('logged-feedback').innerHTML = fb + '<hr style="border:none;border-top:1px solid #eee;margin:8px 0;"/><strong>Way forward & wants:</strong><div style="margin-top:8px;">' + wf + '</div>';
-                // After showing the backend confirmation, open the join flow in a new tab
-                const joinUrl = 'join.html?name=' + encodeURIComponent(userData.name.split(' ')[0] || 'Member');
-                const newTab = window.open(joinUrl, '_blank');
+
+                // Show or hide the join CTA depending on user's choice
+                const joinCta = document.getElementById('join-cta');
+                if (payload.join === 'yes') {
+                    // Direct the user to join flow (open in same tab)
+                    const joinUrl = 'join.html?name=' + encodeURIComponent(userData.name.split(' ')[0] || 'Member');
+                    // Delay briefly to allow user to read confirmation, then redirect
+                    setTimeout(() => { window.location.href = joinUrl; }, 900);
+                } else {
+                    // If not joining, show a friendly message and keep them on the confirmation screen
+                    if (joinCta) {
+                        joinCta.innerHTML = '<h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Thanks for your contribution</h3><p style="margin-bottom: 0;">We appreciate your feedback and involvement. You can join the committee any time later — we'll keep you updated.</p>';
+                    }
+                }
 
                 // Attempt to close this tab/window (may be blocked by browser). If blocked, replace content with a friendly note.
                 setTimeout(() => {
@@ -367,9 +399,9 @@
                         window.close();
                     } catch (e) {
                         // Fallback: show a simple message asking user to close this tab
-                        document.body.innerHTML = '<div style="padding:30px;text-align:center;"><h2>Thanks — feel free to close this tab</h2><p>If this tab didn\'t close automatically, close it and continue in the new tab we opened (it should say "Join the DEI Committee").</p></div>';
+                        document.body.innerHTML = '<div style="padding:30px;text-align:center;"><h2>Thanks — feel free to close this tab</h2><p>If this tab didn\'t close automatically, please close it or navigate away. Your responses have been saved.</p></div>';
                     }
-                }, 700);
+                }, 1200);
             }, 700);
         }
 
@@ -377,6 +409,7 @@
         function resetPortal() {
             userData = { name: '', id: '' };
             surveyAnswers = { q1: '', q2: '' };
+            joinChoice = '';
             // Clear inputs
             document.getElementById('member-name').value = '';
             document.getElementById('rotaract-id').value = '';
