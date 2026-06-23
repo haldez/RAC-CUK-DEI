@@ -13,6 +13,7 @@
     input[type="text"], input[type="email"] { width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; margin-bottom:12px; }
     button { background:#00246B; color:white; border:none; padding:12px; width:100%; border-radius:6px; cursor:pointer; font-weight:700; }
     .muted { color:#666; font-size:13px; margin-top:8px; text-align:center; }
+    .link { display:inline-block; margin-top:12px; color:#00246B; font-weight:700; text-decoration:none; }
   </style>
 </head>
 <body>
@@ -31,6 +32,9 @@
   </div>
 
   <script>
+    // WhatsApp invite link for DEI committee members
+    const whatsappLink = 'https://chat.whatsapp.com/JzeYjJ1qDXgJto7fUz9veH';
+
     // prefill name from ?name= query parameter
     function getQueryParam(key) {
       return new URLSearchParams(window.location.search).get(key) || '';
@@ -48,9 +52,43 @@
         alert('Please enter your full name and email so we can contact you.');
         return;
       }
-      // Here you would normally POST to your backend. For demo we just show a confirmation.
-      document.body.innerHTML = '<div style="padding:30px;text-align:center;"><h2>Welcome to the DEI Committee, ' + fullName.split(' ')[0] + '!</h2><p>We will reach out at ' + email + ' with next steps.</p></div>';
+
+      // Show confirmation on the page and include the WhatsApp link
+      const firstName = fullName.split(' ')[0] || fullName;
+      document.body.innerHTML = '<div style="padding:30px;text-align:center;">'
+        + '<h2>Welcome to the DEI Committee, ' + escapeHtml(firstName) + '!</h2>'
+        + '<p>We will reach out at ' + escapeHtml(email) + ' with next steps.</p>'
+        + '<p>Please join the DEI WhatsApp group to stay in touch: <a href="' + whatsappLink + '" target="_blank" rel="noopener">' + whatsappLink + '</a></p>'
+        + '<p style="margin-top:18px"><a id="send-email" class="link" href="#">Open your email app to send this invite</a></p>'
+        + '<p class="muted">If your email client does not open automatically, click the link above to compose the message manually.</p>'
+        + '</div>';
+
+      // Prepare a mailto link so the user's mail client can send the WhatsApp invite to the member's email
+      const subject = encodeURIComponent('Welcome to RAC CUK DEI Committee');
+      const body = encodeURIComponent('Hi ' + fullName + ',\n\nThank you for joining the DEI Committee. Please join our WhatsApp group to stay informed:\n' + whatsappLink + '\n\nRegards,\nRAC CUK DEI');
+      const mailto = 'mailto:' + encodeURIComponent(email) + '?subject=' + subject + '&body=' + body;
+
+      // Try to open the mail client automatically; also attach the mailto to the visible link for manual use
+      const sendEmailLink = document.getElementById('send-email');
+      if (sendEmailLink) {
+        sendEmailLink.setAttribute('href', mailto);
+      }
+
+      // Attempt to open the default mail client (may be blocked by some browsers) after a short delay
+      setTimeout(function () {
+        window.location.href = mailto;
+      }, 300);
     });
+
+    // Simple HTML escaper for insertion into the page
+    function escapeHtml(unsafe) {
+      return unsafe
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
   </script>
 </body>
 </html>
