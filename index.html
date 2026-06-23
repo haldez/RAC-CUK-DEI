@@ -193,6 +193,23 @@
         /* Join form styles (embedded) */
         .join-card { background:#fff; padding:20px; border-radius:10px; box-shadow:0 8px 20px rgba(0,0,0,0.06); max-width:500px; margin:0 auto; }
         .muted { color:#666; font-size:13px; margin-top:8px; text-align:center; }
+
+        /* WhatsApp link styling */
+        .whatsapp-link {
+            display: inline-block;
+            background-color: #25D366;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px 0;
+            transition: background-color 0.3s;
+        }
+
+        .whatsapp-link:hover {
+            background-color: #20ba58;
+        }
     </style>
 </head>
 <body>
@@ -229,7 +246,11 @@
             </div>
             
             <h2>Our DEI Journey & Survey</h2>
-            <p>The Diversity, Equity, and Inclusion (DEI) Directorate at RAC Cooperative University ensures every member has a voice. We actively audit projects for accessibility, encourage cultural participation, and build inclusive leadership opportunities for all members.</p>
+            <p>The Diversity, Equity, and Inclusion (DEI) Directorate at RAC Cooperative University ensures every member has a voice. We actively audit projects for accessibility, encourage cultural exchange, and foster a truly inclusive community where everyone belongs.</p>
+            
+            <div style="text-align: center; margin: 15px 0;">
+                <a href="https://chat.whatsapp.com/JzeYjJ1qDXgJto7fUz9veH" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>
+            </div>
             
             <hr style="border: 0; border-top: 1px solid #EEE; margin: 20px 0;">
 
@@ -258,7 +279,7 @@
 
                 <div class="form-group">
                     <label for="wayforward">🚀 Way Forward & What I Want</label>
-                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">Let us know the next steps you'd like to see and what you want (roles, support, resources). Be specific — we want your leadership and participation to grow.</p>
+                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">Let us know the next steps you'd like to see and what you want (roles, support, resources). Be specific — we want to hear from you!</p>
                     <textarea id="wayforward" placeholder="e.g., I'd like to lead accessibility checks, or I need training on inclusive facilitation..."></textarea>
                 </div>
 
@@ -285,7 +306,8 @@
             
             <div id="join-cta" style="background: #FFFDF3; border: 2px dashed var(--rotary-gold); padding: 15px; border-radius: 8px; margin-top: 20px;">
                 <h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Join the Committee!</h3>
-                <p style="margin-bottom: 0;">We meet every alternate week to design an inclusive club environment. Your unique voice is exactly what our team needs — chukua nafasi, we want you!</p>
+                <p style="margin-bottom: 10px;">We meet every alternate week to design an inclusive club environment. Your unique voice is exactly what our team needs — chukua nafasi, we want you!</p>
+                <a href="https://chat.whatsapp.com/JzeYjJ1qDXgJto7fUz9veH" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>
             </div>
             <br>
             <button onclick="resetPortal()">Log Out</button>
@@ -304,7 +326,10 @@
                 <input type="email" id="join-email" placeholder="you@example.com">
 
                 <button id="join-confirm">Confirm & Join</button>
-                <div class="muted">You can also contact the DEI director at example@club.org</div>
+                <div style="text-align: center; margin-top: 15px;">
+                    <p class="muted">Or join directly via WhatsApp:</p>
+                    <a href="https://chat.whatsapp.com/JzeYjJ1qDXgJto7fUz9veH" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>
+                </div>
             </div>
         </div>
 
@@ -312,6 +337,9 @@
 
     <!-- JavaScript Logic Handling Client Action and "Backend" Simulation -->
     <script>
+        // WhatsApp invite link for DEI committee members
+        const whatsappLink = 'https://chat.whatsapp.com/JzeYjJ1qDXgJto7fUz9veH';
+
         let userData = { name: '', id: '' };
         let surveyAnswers = { q1: '', q2: '' };
         let joinChoice = '';
@@ -408,7 +436,7 @@
                 } else {
                     // If not joining, show a friendly message and keep them on the confirmation screen
                     if (joinCta) {
-                        joinCta.innerHTML = '<h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Thanks for your contribution</h3><p style="margin-bottom: 0;">We appreciate your feedback and involvement. You can join the committee any time later — we\'ll keep you updated.</p>';
+                        joinCta.innerHTML = '<h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Thanks for your contribution</h3><p style="margin-bottom: 10px;">We appreciate your feedback and your voice matters. Feel free to reach out anytime if you change your mind!</p><a href="' + whatsappLink + '" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>';
                     }
                 }
 
@@ -438,11 +466,42 @@
                         alert('Please enter your full name and email so we can contact you.');
                         return;
                     }
-                    // In production, POST to backend here. For now, show a simple success message.
-                    document.getElementById('join-view').innerHTML = '<div style="padding:30px;text-align:center;"><h2>Welcome to the DEI Committee, ' + fullName.split(' ')[0] + '!</h2><p>We will reach out at ' + email + ' with next steps.</p></div>';
+
+                    // Create email with WhatsApp link embedded
+                    const subject = encodeURIComponent('Welcome to RAC CUK DEI Committee - Join us on WhatsApp!');
+                    const body = encodeURIComponent(
+                        'Hi ' + fullName + ',\n\n' +
+                        'Thank you for joining the DEI Committee! We are excited to have you on board.\n\n' +
+                        'Please join our WhatsApp group to stay connected and receive updates:\n' +
+                        whatsappLink + '\n\n' +
+                        'We look forward to working with you!\n\n' +
+                        'Best regards,\nRAC CUK DEI Directorate'
+                    );
+                    const mailto = 'mailto:' + encodeURIComponent(email) + '?subject=' + subject + '&body=' + body;
+
+                    // Show success message with WhatsApp CTA
+                    document.getElementById('join-view').innerHTML = 
+                        '<div style="padding:30px;text-align:center;">' +
+                        '<h2>Welcome to the DEI Committee, ' + escapeHtml(fullName.split(' ')[0]) + '!</h2>' +
+                        '<p>We will reach out at ' + escapeHtml(email) + ' with next steps.</p>' +
+                        '<p style="margin: 20px 0; font-weight: bold;">Email with WhatsApp invite link has been prepared:</p>' +
+                        '<a href="' + mailto + '" style="display: inline-block; background-color: var(--rotary-blue); color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin: 10px 0;">📧 Send Email with WhatsApp Link</a>' +
+                        '<p style="margin-top: 20px;">Or join directly:</p>' +
+                        '<a href="' + whatsappLink + '" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>' +
+                        '</div>';
                 });
                 btn._attached = true;
             }
+        }
+
+        // Simple HTML escaper for insertion into the page
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
         }
 
         // Reset portal to initial state
