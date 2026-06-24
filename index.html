@@ -210,6 +210,34 @@
         .whatsapp-link:hover {
             background-color: #20ba58;
         }
+
+        /* Google Forms CTA */
+        .forms-cta {
+            background: linear-gradient(135deg, rgba(217, 27, 92, 0.05) 0%, rgba(0, 36, 107, 0.05) 100%);
+            border: 2px dashed var(--rotaract-pink);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .forms-link {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--rotaract-pink) 0%, #D91B5C 100%);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(217, 27, 92, 0.3);
+        }
+
+        .forms-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(217, 27, 92, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -246,12 +274,21 @@
             </div>
             
             <h2>Our DEI Journey & Survey</h2>
-            <p>The Diversity, Equity, and Inclusion (DEI) Directorate at RAC Cooperative University ensures every member has a voice. We actively audit projects for accessibility, encourage cultural exchange, and foster a truly inclusive community where everyone belongs.</p>
+            <p>The Diversity, Equity, and Inclusion (DEI) Directorate at RAC Cooperative University ensures every member has a voice. We actively audit projects for accessibility, encourage cultural e[...]
             
             <div style="text-align: center; margin: 15px 0;">
                 <a href="https://chat.whatsapp.com/JzeYjJ1qDXgJto7fUz9veH" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>
             </div>
             
+            <hr style="border: 0; border-top: 1px solid #EEE; margin: 20px 0;">
+
+            <!-- Google Forms Extended Survey -->
+            <div class="forms-cta">
+                <h3 style="color: var(--rotaract-pink); margin-bottom: 8px;">📋 Extended DEI Survey</h3>
+                <p style="font-size: 14px; margin-bottom: 12px;">Share more detailed insights about your DEI experience and vision for our community.</p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScmciCB724_lGJMuDVOKbp_rA9vX0BOunbrbPXXE2npDLIAIw/viewform?usp=publish-editor" target="_blank" rel="noopener" class="forms-link">📝 Open Extended Survey</a>
+            </div>
+
             <hr style="border: 0; border-top: 1px solid #EEE; margin: 20px 0;">
 
             <!-- Interactive Fun Facts, Questions, and Forum -->
@@ -273,13 +310,13 @@
                 <!-- NEW: OPEN FORUM SECTION -->
                 <div class="form-group">
                     <label for="project-feedback">💬 Open Forum: Your Views on Past Club Projects</label>
-                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">How inclusive were our past signature projects? Share your honest suggestions, constructive criticism, or highlights.</p>
+                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">How inclusive were our past signature projects? Share your honest suggestions, constructive criticism, or highlights.</[...]
                     <textarea id="project-feedback" placeholder="Share your views or specific examples about past club projects here..." required></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="wayforward">🚀 Way Forward & What I Want</label>
-                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">Let us know the next steps you'd like to see and what you want (roles, support, resources). Be specific — we want to hear from you!</p>
+                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">Let us know the next steps you'd like to see and what you want (roles, support, resources). Be specific — we want to [...]
                     <textarea id="wayforward" placeholder="e.g., I'd like to lead accessibility checks, or I need training on inclusive facilitation..."></textarea>
                 </div>
 
@@ -306,7 +343,7 @@
             
             <div id="join-cta" style="background: #FFFDF3; border: 2px dashed var(--rotary-gold); padding: 15px; border-radius: 8px; margin-top: 20px;">
                 <h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Join the Committee!</h3>
-                <p style="margin-bottom: 10px;">We meet every alternate week to design an inclusive club environment. Your unique voice is exactly what our team needs — chukua nafasi, we want you!</p>
+                <p style="margin-bottom: 10px;">We meet every alternate week to design an inclusive club environment. Your unique voice is exactly what our team needs — chukua nafasi, we want y[...]
                 <a href="https://chat.whatsapp.com/JzeYjJ1qDXgJto7fUz9veH" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>
             </div>
             <br>
@@ -426,7 +463,7 @@
                 document.getElementById('backend-message').textContent = `Thanks ${userData.name.split(' ')[0]} — your responses were recorded, poa!`;
                 const fb = sanitize(payload.feedback);
                 const wf = sanitize(payload.wayforward || 'No additional way forward provided.');
-                document.getElementById('logged-feedback').innerHTML = fb + '<hr style="border:none;border-top:1px solid #eee;margin:8px 0;"/><strong>Way forward & wants:</strong><div style="margin-top:8px;">' + wf + '</div>';
+                document.getElementById('logged-feedback').innerHTML = fb + '<hr style="border:none;border-top:1px solid #eee;margin:8px 0;"/><strong>Way forward & wants:</strong><div style="marg[...]
 
                 // Show or hide the join CTA depending on user's choice
                 const joinCta = document.getElementById('join-cta');
@@ -436,7 +473,7 @@
                 } else {
                     // If not joining, show a friendly message and keep them on the confirmation screen
                     if (joinCta) {
-                        joinCta.innerHTML = '<h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Thanks for your contribution</h3><p style="margin-bottom: 10px;">We appreciate your feedback and your voice matters. Feel free to reach out anytime if you change your mind!</p><a href="' + whatsappLink + '" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>';
+                        joinCta.innerHTML = '<h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Thanks for your contribution</h3><p style="margin-bottom: 10px;">We appreciate your feedb[...]
                     }
                 }
 
@@ -450,7 +487,7 @@
             // Prefill name
             const firstName = (userData.name || '').split(' ')[0] || '';
             document.getElementById('join-full-name').value = userData.name || firstName;
-            document.getElementById('join-greeting').textContent = firstName ? `Hi ${firstName}, please confirm your details so we can follow up.` : 'Please confirm your details so we can follow up.';
+            document.getElementById('join-greeting').textContent = firstName ? `Hi ${firstName}, please confirm your details so we can follow up.` : 'Please confirm your details so we can follow [...]
 
             // Hide backend/other views
             document.getElementById('backend-view').classList.add('hidden');
@@ -485,7 +522,7 @@
                         '<h2>Welcome to the DEI Committee, ' + escapeHtml(fullName.split(' ')[0]) + '!</h2>' +
                         '<p>We will reach out at ' + escapeHtml(email) + ' with next steps.</p>' +
                         '<p style="margin: 20px 0; font-weight: bold;">Email with WhatsApp invite link has been prepared:</p>' +
-                        '<a href="' + mailto + '" style="display: inline-block; background-color: var(--rotary-blue); color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin: 10px 0;">📧 Send Email with WhatsApp Link</a>' +
+                        '<a href="' + mailto + '" style="display: inline-block; background-color: var(--rotary-blue); color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; [...]
                         '<p style="margin-top: 20px;">Or join directly:</p>' +
                         '<a href="' + whatsappLink + '" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>' +
                         '</div>';
