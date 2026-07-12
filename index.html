@@ -118,6 +118,7 @@
             cursor: pointer;
             border: 2px solid transparent;
             transition: all 0.2s;
+            color: #333;
         }
 
         .quiz-option:hover {
@@ -128,7 +129,7 @@
         .quiz-option.selected {
             background-color: rgba(217, 27, 92, 0.1);
             border-color: var(--rotaract-pink);
-            color: var(--rotaract-pink);
+            color: #000;
             font-weight: bold;
         }
 
@@ -282,14 +283,14 @@
             
             <hr style="border: 0; border-top: 1px solid #EEE; margin: 20px 0;">
 
-            <!-- Google Forms Extended Survey -->
-            <div class="forms-cta">
+            <!-- Google Forms Extended Survey - HIDDEN DURING SURVEY -->
+            <div id="forms-section" class="forms-cta hidden">
                 <h3 style="color: var(--rotaract-pink); margin-bottom: 8px;">📋 Extended DEI Survey</h3>
                 <p style="font-size: 14px; margin-bottom: 12px;">Share more detailed insights about your DEI experience and vision for our community.</p>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLScmciCB724_lGJMuDVOKbp_rA9vX0BOunbrbPXXE2npDLIAIw/viewform?usp=publish-editor" target="_blank" rel="noopener" class="forms-link">[...]
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScmciCB724_lGJMuDVOKbp_rA9vX0BOunbrbPXXE2npDLIAIw/viewform?usp=publish-editor" target="_blank" rel="noopener" class="forms-link">Open Extended Survey</a>
             </div>
 
-            <hr style="border: 0; border-top: 1px solid #EEE; margin: 20px 0;">
+            <hr id="forms-hr" style="border: 0; border-top: 1px solid #EEE; margin: 20px 0; display: none;">
 
             <!-- Interactive Fun Facts, Questions, and Forum -->
             <div id="survey-form">
@@ -526,7 +527,7 @@
                     );
                     const mailto = 'mailto:' + encodeURIComponent(email) + '?subject=' + subject + '&body=' + body;
 
-                    // Show success message with WhatsApp CTA
+                    // Show success message with Extended Survey CTA
                     document.getElementById('join-view').innerHTML = 
                         '<div style="padding:30px;text-align:center;">' +
                         '<h2>Welcome to the DEI Committee, ' + escapeHtml(fullName.split(' ')[0]) + '!</h2>' +
@@ -535,6 +536,12 @@
                         '<a href="' + mailto + '" style="display: inline-block; background-color: var(--rotary-blue); color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin: 10px 0;">📧 Send Email Invite</a>' +
                         '<p style="margin-top: 20px;">Or join directly:</p>' +
                         '<a href="' + whatsappLink + '" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>' +
+                        '<hr style="border: 0; border-top: 1px solid #EEE; margin: 20px 0;">' +
+                        '<div style="background: linear-gradient(135deg, rgba(217, 27, 92, 0.05) 0%, rgba(0, 36, 107, 0.05) 100%); border: 2px dashed var(--rotaract-pink); padding: 15px; border-radius: 8px; margin: 20px 0;">' +
+                        '<h3 style="color: var(--rotaract-pink); margin-bottom: 8px;">📋 Extended DEI Survey</h3>' +
+                        '<p style="font-size: 14px; margin-bottom: 12px; color: #555;">Share more detailed insights about your DEI experience and vision for our community.</p>' +
+                        '<a href="https://docs.google.com/forms/d/e/1FAIpQLScmciCB724_lGJMuDVOKbp_rA9vX0BOunbrbPXXE2npDLIAIw/viewform?usp=publish-editor" target="_blank" rel="noopener" style="display: inline-block; background: linear-gradient(135deg, var(--rotaract-pink) 0%, #D91B5C 100%); color: white; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 12px rgba(217, 27, 92, 0.3);">Open Extended Survey</a>' +
+                        '</div>' +
                         '</div>';
                 });
                 btn._attached = true;
