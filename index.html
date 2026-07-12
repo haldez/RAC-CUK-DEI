@@ -274,7 +274,7 @@
             </div>
             
             <h2>Our DEI Journey & Survey</h2>
-            <p>The Diversity, Equity, and Inclusion (DEI) Directorate at RAC Cooperative University ensures every member has a voice. We actively audit projects for accessibility, encourage cultural exchange, and champion inclusive leadership at every level of our organization.</p>
+            <p>The Diversity, Equity, and Inclusion (DEI) Directorate at RAC Cooperative University ensures every member has a voice. We actively audit projects for accessibility, encourage cultu[...]
             
             <div style="text-align: center; margin: 15px 0;">
                 <a href="https://chat.whatsapp.com/JzeYjJ1qDXgJto7fUz9veH" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>
@@ -286,7 +286,7 @@
             <div class="forms-cta">
                 <h3 style="color: var(--rotaract-pink); margin-bottom: 8px;">📋 Extended DEI Survey</h3>
                 <p style="font-size: 14px; margin-bottom: 12px;">Share more detailed insights about your DEI experience and vision for our community.</p>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLScmciCB724_lGJMuDVOKbp_rA9vX0BOunbrbPXXE2npDLIAIw/viewform?usp=publish-editor" target="_blank" rel="noopener" class="forms-link">Open Extended Survey</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScmciCB724_lGJMuDVOKbp_rA9vX0BOunbrbPXXE2npDLIAIw/viewform?usp=publish-editor" target="_blank" rel="noopener" class="forms-link">[...]
             </div>
 
             <hr style="border: 0; border-top: 1px solid #EEE; margin: 20px 0;">
@@ -310,13 +310,13 @@
                 <!-- NEW: OPEN FORUM SECTION -->
                 <div class="form-group">
                     <label for="project-feedback">💬 Open Forum: Your Views on Past Club Projects</label>
-                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">How inclusive were our past signature projects? Share your honest suggestions, constructive criticism, or highlights of what worked well.</p>
+                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">How inclusive were our past signature projects? Share your honest suggestions, constructive criticism, or highligh[...]
                     <textarea id="project-feedback" placeholder="Share your views or specific examples about past club projects here..." required></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="wayforward">🚀 Way Forward & What I Want</label>
-                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">Let us know the next steps you'd like to see and what you want (roles, support, resources). Be specific — we want to support you!</p>
+                    <p style="font-size: 13px; color: #777; margin-bottom: 8px;">Let us know the next steps you'd like to see and what you want (roles, support, resources). Be specific — we wan[...]
                     <textarea id="wayforward" placeholder="e.g., I'd like to lead accessibility checks, or I need training on inclusive facilitation..."></textarea>
                 </div>
 
@@ -343,7 +343,7 @@
             
             <div id="join-cta" style="background: #FFFDF3; border: 2px dashed var(--rotary-gold); padding: 15px; border-radius: 8px; margin-top: 20px;">
                 <h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Join the Committee!</h3>
-                <p style="margin-bottom: 10px;">We meet every alternate week to design an inclusive club environment. Your unique voice is exactly what our team needs — chukua nafasi, we want you!</p>
+                <p style="margin-bottom: 10px;">We meet every alternate week to design an inclusive club environment. Your unique voice is exactly what our team needs — chukua nafasi, we want y[...]
                 <a href="https://chat.whatsapp.com/JzeYjJ1qDXgJto7fUz9veH" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>
             </div>
             <br>
@@ -421,7 +421,7 @@
             joinChoice = value;
         }
 
-        // Submit survey and simulate backend response
+        // Submit survey and call actual backend
         function submitSurvey() {
             const feedbackEl = document.getElementById('project-feedback');
             const feedback = feedbackEl.value.trim();
@@ -447,39 +447,58 @@
             const sanitize = (str) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
             const payload = {
-                user: { ...userData },
-                answers: { ...surveyAnswers },
+                name: userData.name,
+                id: userData.id,
+                q1: surveyAnswers.q1,
+                q2: surveyAnswers.q2,
                 feedback: feedback,
-                wayforward: way,
-                join: joinChoice
+                wayforward: way
             };
 
-            // Simulate backend processing delay
+            // Hide portal view
             document.getElementById('portal-view').classList.add('hidden');
             const backendView = document.getElementById('backend-view');
             backendView.classList.remove('hidden');
 
-            setTimeout(() => {
+            // Call actual backend
+            fetch("PASTE_YOUR_WEB_APP_URL_HERE", {
+                method: "POST",
+                body: JSON.stringify({
+                    name: userData.name,
+                    id: userData.id,
+                    q1: surveyAnswers.q1,
+                    q2: surveyAnswers.q2,
+                    feedback: feedback,
+                    wayforward: way
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
                 document.getElementById('backend-message').textContent = `Thanks ${userData.name.split(' ')[0]} — your responses were recorded, poa!`;
                 const fb = sanitize(payload.feedback);
                 const wf = sanitize(payload.wayforward || 'No additional way forward provided.');
-                document.getElementById('logged-feedback').innerHTML = fb + '<hr style="border:none;border-top:1px solid #eee;margin:8px 0;"/><strong>Way forward & wants:</strong><div style="margin-top:6px;">' + wf + '</div>';
+                document.getElementById('logged-feedback').innerHTML = fb + '<hr style="border:none;border-top:1px solid #eee;margin:8px 0;"/><strong>Way forward & wants:</strong><div style="marg[...]' + wf + '</div>';
 
                 // Show or hide the join CTA depending on user's choice
                 const joinCta = document.getElementById('join-cta');
-                if (payload.join === 'yes') {
+                if (joinChoice === 'yes') {
                     // Instead of redirecting to a separate page, show the embedded join view
                     setTimeout(() => { showJoinView(); }, 900);
                 } else {
                     // If not joining, show a friendly message and keep them on the confirmation screen
                     if (joinCta) {
-                        joinCta.innerHTML = '<h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Thanks for your contribution</h3><p style="margin-bottom: 10px;">We appreciate your feedback and look forward to your future involvement. Asante sana!</p>';
+                        joinCta.innerHTML = '<h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Thanks for your contribution</h3><p style="margin-bottom: 10px;">We appreciate your feedb[...]';
                     }
                 }
 
-                // Attempt to close this tab/window (may be blocked by browser). If blocked, leave the confirmation displayed.
-                // (No forced close when join flow is embedded.)
-            }, 700);
+                alert("Your response has been submitted successfully!");
+            })
+            .catch(error => {
+                alert("Submission failed.");
+                console.log(error);
+                // Show backend view with error message
+                document.getElementById('backend-message').textContent = "There was an error submitting your response. Please try again.";
+            });
         }
 
         // Show embedded join view and prefill
@@ -487,7 +506,7 @@
             // Prefill name
             const firstName = (userData.name || '').split(' ')[0] || '';
             document.getElementById('join-full-name').value = userData.name || firstName;
-            document.getElementById('join-greeting').textContent = firstName ? `Hi ${firstName}, please confirm your details so we can follow up.` : 'Please confirm your details so we can follow up.';
+            document.getElementById('join-greeting').textContent = firstName ? `Hi ${firstName}, please confirm your details so we can follow up.` : 'Please confirm your details so we can follow [...]';
 
             // Hide backend/other views
             document.getElementById('backend-view').classList.add('hidden');
@@ -522,7 +541,7 @@
                         '<h2>Welcome to the DEI Committee, ' + escapeHtml(fullName.split(' ')[0]) + '!</h2>' +
                         '<p>We will reach out at ' + escapeHtml(email) + ' with next steps.</p>' +
                         '<p style="margin: 20px 0; font-weight: bold;">Email with WhatsApp invite link has been prepared:</p>' +
-                        '<a href="' + mailto + '" style="display: inline-block; background-color: var(--rotary-blue); color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin: 10px 0;">Open Email to Send Invite</a>' +
+                        '<a href="' + mailto + '" style="display: inline-block; background-color: var(--rotary-blue); color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; [...]' +
                         '<p style="margin-top: 20px;">Or join directly:</p>' +
                         '<a href="' + whatsappLink + '" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>' +
                         '</div>';
