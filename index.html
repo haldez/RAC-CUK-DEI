@@ -479,19 +479,10 @@
                 const wf = sanitize(payload.wayforward || 'No additional way forward provided.');
                 document.getElementById('logged-feedback').innerHTML = fb + '<hr style="border:none;border-top:1px solid #eee;margin:8px 0;"/><strong>Way forward & wants:</strong><div style="margin-top:8px;">' + wf + '</div>';
 
-                // Show or hide the join CTA depending on user's choice
-                const joinCta = document.getElementById('join-cta');
-                if (joinChoice === 'yes') {
-                    // Instead of redirecting to a separate page, show the embedded join view
-                    setTimeout(() => { showJoinView(); }, 900);
-                } else {
-                    // If not joining, show a friendly message and keep them on the confirmation screen
-                    if (joinCta) {
-                        joinCta.innerHTML = '<h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Thanks for your contribution</h3><p style="margin-bottom: 10px;">We appreciate your feedback and will keep you updated on our DEI initiatives!</p>';
-                    }
-                }
-
                 alert("Your response has been submitted successfully!");
+
+                // Show the join form after a brief delay to let user see the success message
+                setTimeout(() => { showJoinView(); }, 1500);
             })
             .catch(error => {
                 alert("Submission failed.");
