@@ -461,7 +461,7 @@
             backendView.classList.remove('hidden');
 
             // Call actual backend
-            fetch("PASTE_YOUR_WEB_APP_URL_HERE", {
+            fetch("https://script.google.com/macros/s/AKfycbwjbct2SbceIxXvtAipPzNPMhcBvjn__9Rn4s7AX2xGASy29nMEZWWt65_ThpTbHNrj5g/exec", {
                 method: "POST",
                 body: JSON.stringify({
                     name: userData.name,
@@ -477,7 +477,7 @@
                 document.getElementById('backend-message').textContent = `Thanks ${userData.name.split(' ')[0]} — your responses were recorded, poa!`;
                 const fb = sanitize(payload.feedback);
                 const wf = sanitize(payload.wayforward || 'No additional way forward provided.');
-                document.getElementById('logged-feedback').innerHTML = fb + '<hr style="border:none;border-top:1px solid #eee;margin:8px 0;"/><strong>Way forward & wants:</strong><div style="marg[...]' + wf + '</div>';
+                document.getElementById('logged-feedback').innerHTML = fb + '<hr style="border:none;border-top:1px solid #eee;margin:8px 0;"/><strong>Way forward & wants:</strong><div style="margin-top:8px;">' + wf + '</div>';
 
                 // Show or hide the join CTA depending on user's choice
                 const joinCta = document.getElementById('join-cta');
@@ -487,7 +487,7 @@
                 } else {
                     // If not joining, show a friendly message and keep them on the confirmation screen
                     if (joinCta) {
-                        joinCta.innerHTML = '<h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Thanks for your contribution</h3><p style="margin-bottom: 10px;">We appreciate your feedb[...]';
+                        joinCta.innerHTML = '<h3 style="color: var(--rotaract-pink); margin-bottom: 5px;">Thanks for your contribution</h3><p style="margin-bottom: 10px;">We appreciate your feedback and will keep you updated on our DEI initiatives!</p>';
                     }
                 }
 
@@ -506,7 +506,7 @@
             // Prefill name
             const firstName = (userData.name || '').split(' ')[0] || '';
             document.getElementById('join-full-name').value = userData.name || firstName;
-            document.getElementById('join-greeting').textContent = firstName ? `Hi ${firstName}, please confirm your details so we can follow up.` : 'Please confirm your details so we can follow [...]';
+            document.getElementById('join-greeting').textContent = firstName ? `Hi ${firstName}, please confirm your details so we can follow up.` : 'Please confirm your details so we can follow up.';
 
             // Hide backend/other views
             document.getElementById('backend-view').classList.add('hidden');
@@ -541,7 +541,7 @@
                         '<h2>Welcome to the DEI Committee, ' + escapeHtml(fullName.split(' ')[0]) + '!</h2>' +
                         '<p>We will reach out at ' + escapeHtml(email) + ' with next steps.</p>' +
                         '<p style="margin: 20px 0; font-weight: bold;">Email with WhatsApp invite link has been prepared:</p>' +
-                        '<a href="' + mailto + '" style="display: inline-block; background-color: var(--rotary-blue); color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; [...]' +
+                        '<a href="' + mailto + '" style="display: inline-block; background-color: var(--rotary-blue); color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin: 10px 0;">📧 Send Email Invite</a>' +
                         '<p style="margin-top: 20px;">Or join directly:</p>' +
                         '<a href="' + whatsappLink + '" target="_blank" rel="noopener" class="whatsapp-link">📱 Join our WhatsApp Group</a>' +
                         '</div>';
